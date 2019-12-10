@@ -59,6 +59,23 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.CacheTests
         }
 
         [TestMethod]
+        public void MsalPOPAccessTokenCacheKey()
+        {
+            var key = new MsalAccessTokenCacheKey("login.microsoftonline.com", "contoso.com", "uid.utid", "clientid", "user.read user.write", "pop");
+
+            Assert.AreEqual("uid.utid-login.microsoftonline.com-accesstoken_with_authscheme-clientid-contoso.com-user.read user.write-pop", key.ToString());
+
+            Assert.AreEqual("uid.utid-login.microsoftonline.com", key.iOSAccount);
+            Assert.AreEqual("accesstoken_with_authscheme-clientid-contoso.com-user.read user.write-pop", key.iOSService);
+            Assert.AreEqual("accesstoken_with_authscheme-clientid-contoso.com", key.iOSGeneric);
+            Assert.AreEqual((int)MsalCacheKeys.iOSCredentialAttrType.AccessToken, key.iOSType);
+
+            Assert.AreEqual(
+                key,
+                new MsalAccessTokenCacheKey("login.microsoftonline.com", "contoso.com", "uid.utid", "clientid", "user.read user.write", "pop"));
+        }
+
+        [TestMethod]
         public void MsalRefreshTokenCacheKey()
         {
             var key = new MsalRefreshTokenCacheKey("login.microsoftonline.com", "clientid", "uid.utid", "");

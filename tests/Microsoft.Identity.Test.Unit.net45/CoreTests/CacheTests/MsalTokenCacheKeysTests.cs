@@ -31,10 +31,11 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.CacheTests
             AssertException.Throws<ArgumentNullException>(() => new MsalIdTokenCacheKey("env", "tid", "uid", ""));
             AssertException.Throws<ArgumentNullException>(() => new MsalIdTokenCacheKey("env", "tid", "uid", null));
 
-            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("", "tid", "uid", "cid", "scopes"));
-            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey(null, "tid", "uid", "cid", "scopes"));
-            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("env", "tid", "uid", "", "scopes"));
-            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("env", "tid", "uid", null, "scopes"));
+            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("", "tid", "uid", "cid", "scopes", "bearer"));
+            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey(null, "tid", "uid", "cid", "scopes", "bearer"));
+            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("env", "tid", "uid", "", "scopes", "bearer"));
+            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("env", "tid", "uid", null, "scopes", "bearer"));
+            AssertException.Throws<ArgumentNullException>(() => new MsalAccessTokenCacheKey("env", "tid", "uid", "cid", "scopes", null));
 
             AssertException.Throws<ArgumentNullException>(() => new MsalAccountCacheKey("", "tid", "uid", "localid", "aad"));
             AssertException.Throws<ArgumentNullException>(() => new MsalAccountCacheKey(null, "tid", "uid", "localid", "msa"));
@@ -43,7 +44,7 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.CacheTests
         [TestMethod]
         public void MsalAccessTokenCacheKey()
         {
-            var key = new MsalAccessTokenCacheKey("login.microsoftonline.com", "contoso.com", "uid.utid", "clientid", "user.read user.write");
+            var key = new MsalAccessTokenCacheKey("login.microsoftonline.com", "contoso.com", "uid.utid", "clientid", "user.read user.write", "bearer");
 
             Assert.AreEqual("uid.utid-login.microsoftonline.com-accesstoken-clientid-contoso.com-user.read user.write", key.ToString());
 
@@ -54,7 +55,7 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.CacheTests
 
             Assert.AreEqual(
                 key,
-                new MsalAccessTokenCacheKey("login.microsoftonline.com", "contoso.com", "uid.utid", "clientid", "user.read user.write"));
+                new MsalAccessTokenCacheKey("login.microsoftonline.com", "contoso.com", "uid.utid", "clientid", "user.read user.write", "bearer"));
         }
 
         [TestMethod]
